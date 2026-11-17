@@ -34,7 +34,7 @@ dist/                      生成物（Git管理対象外）
 
 `bash scripts/build.sh` は `nim js -d:release --out:dist/clock.js src/clock.nim` を実行します。Nim標準のみで動作し、npmやNimbleパッケージのインストールは不要です。Node.jsは実行環境に不要です。
 
-- `validate-develop.yml`：develop push、main/develop宛PRに対して単体テストとJSビルドを実行。PRはデプロイしません。
+- `validate-develop.yml`：develop push、main/develop宛PRに対して単体テスト・JSビルド・Node.jsによるCanvas/DOMのスモークテストを実行。PRはデプロイしません。
 - `deploy-pages.yml`：main push、成功したdevelop pushのCI完了後に本番・プレビューをビルドして1つのPagesアーティファクトを公開します。
 - `workflow_run` ではCI済みdevelopコミットSHAをcheckoutします。検証失敗・PR完了イベントからは公開しません。
 - 本番 `/nim-clock-view/`、プレビュー `/nim-clock-view/develop/`。両方の `index.html` と `dist` を独立した相対パスで配置します。
