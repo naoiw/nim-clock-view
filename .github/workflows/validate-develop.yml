@@ -28,3 +28,5 @@ jobs:
         run: bash scripts/build.sh
       - name: Verify build artifacts
         run: test -s dist/clock.js && test -s dist/styles.css
+      - name: Browser runtime smoke test
+        run: node tests/browser-smoke.cjs
