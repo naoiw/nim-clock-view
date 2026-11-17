@@ -50,6 +50,7 @@ jobs:
         run: |
           nim c -r tests/test_clock_math.nim
           bash scripts/build.sh
+          node tests/browser-smoke.cjs
 
       - name: Test and build preview
         working-directory: preview
