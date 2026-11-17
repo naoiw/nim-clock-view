@@ -75,7 +75,7 @@ proc drawRing(x, y, radius, ratio: float, color: cstring, lineWidth: float) =
   if ratio <= 0.0:
     return
   beginPath(ctx)
-  arc(ctx, x, y, radius, -HalfPi, Tau * ratio - HalfPi)
+  arc(ctx, x, y, radius, -HalfPi, clock_math.Tau * ratio - HalfPi)
   setStrokeStyle(ctx, color)
   setLineWidth(ctx, lineWidth)
   setRoundCap(ctx)
@@ -108,17 +108,17 @@ proc drawFace(time: ClockTime, geometry: Geometry, reduced: bool) =
 
   setFillStyle(ctx, "rgba(219, 232, 250, 0.65)")
   for i in 0 ..< time.seconds:
-    let angle = Tau * i.float / 60.0 - HalfPi
+    let angle = clock_math.Tau * i.float / 60.0 - HalfPi
     beginPath(ctx)
     arc(ctx,
       geometry.x + cos(angle) * r * 1.11,
       geometry.y + sin(angle) * r * 1.11,
-      max(1.0, r * 0.009), 0.0, Tau)
+      max(1.0, r * 0.009), 0.0, clock_math.Tau)
     fill(ctx)
 
 proc spawnParticles(geometry: Geometry, hue: float) =
   for i in 0 ..< ParticleCount:
-    let angle = Tau * i.float / ParticleCount.float - HalfPi +
+    let angle = clock_math.Tau * i.float / ParticleCount.float - HalfPi +
       (randomFloat() - 0.5) * 0.28
     let speed = 55.0 + randomFloat() * 115.0
     particles.add Particle(
@@ -136,7 +136,7 @@ proc drawParticle(particle: Particle, radius: float) =
   setFillStyle(ctx, cstring("hsla(" & $particle.hue &
     ", 88%, 72%, " & $opacity & ")"))
   beginPath(ctx)
-  arc(ctx, particle.x, particle.y, max(1.5, radius * 0.012), 0.0, Tau)
+  arc(ctx, particle.x, particle.y, max(1.5, radius * 0.012), 0.0, clock_math.Tau)
   fill(ctx)
 
 proc animate(timestamp: float) =
