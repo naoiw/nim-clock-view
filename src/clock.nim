@@ -12,7 +12,7 @@ const
 proc elementById(id: cstring): JsObject {.importjs: "document.getElementById(#)".}
 proc context2d(canvas: JsObject): JsObject {.importjs: "#.getContext('2d')".}
 proc isNull(value: JsObject): bool {.importjs: "(# == null)".}
-proc jsDate(): JsObject {.importjs: "new Date()".}
+proc jsDate(): JsObject {.importjs: "new Date(@)".}
 proc jsHours(date: JsObject): int {.importjs: "#.getHours()".}
 proc jsMinutes(date: JsObject): int {.importjs: "#.getMinutes()".}
 proc jsSeconds(date: JsObject): int {.importjs: "#.getSeconds()".}
@@ -22,9 +22,9 @@ proc jsMonth(date: JsObject): int {.importjs: "#.getMonth()".}
 proc jsDayOfMonth(date: JsObject): int {.importjs: "#.getDate()".}
 proc jsWeekday(date: JsObject): int {.importjs: "#.getDay()".}
 proc jsTime(date: JsObject): float {.importjs: "#.getTime()".}
-proc viewportWidth(): float {.importjs: "window.innerWidth".}
-proc viewportHeight(): float {.importjs: "window.innerHeight".}
-proc devicePixelRatio(): float {.importjs: "(window.devicePixelRatio || 1)".}
+proc viewportWidth(): float {.importjs: "(window.innerWidth) /*@*/".}
+proc viewportHeight(): float {.importjs: "(window.innerHeight) /*@*/".}
+proc devicePixelRatio(): float {.importjs: "(window.devicePixelRatio || 1) /*@*/".}
 proc setCssWidth(canvas: JsObject, value: cstring) {.importjs: "#.style.width = #".}
 proc setCssHeight(canvas: JsObject, value: cstring) {.importjs: "#.style.height = #".}
 proc setCanvasWidth(canvas: JsObject, value: int) {.importjs: "#.width = #".}
@@ -38,12 +38,12 @@ proc arc(ctx: JsObject, x, y, radius, startAngle, endAngle: float) {.importjs: "
 proc fill(ctx: JsObject) {.importjs: "#.fill()".}
 proc stroke(ctx: JsObject) {.importjs: "#.stroke()".}
 proc fillRect(ctx: JsObject, x, y, width, height: float) {.importjs: "#.fillRect(#, #, #, #)".}
-proc setTransform(ctx: JsObject, scale: float) {.importjs: "#.setTransform(#, 0, 0, #, 0, 0)".}
+proc setTransform(ctx: JsObject, scaleX, scaleY: float) {.importjs: "#.setTransform(#, 0, 0, #, 0, 0)".}
 proc textContent(elem: JsObject): cstring {.importjs: "#.textContent".}
 proc setTextContent(elem: JsObject, value: cstring) {.importjs: "#.textContent = #".}
 proc randomFloat(): float {.importjs: "Math.random()".}
-proc documentHidden(): bool {.importjs: "document.hidden".}
-proc motionReduced(): bool {.importjs: "(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) || false".}
+proc documentHidden(): bool {.importjs: "(document.hidden) /*@*/".}
+proc motionReduced(): bool {.importjs: "((window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) || false) /*@*/".}
 proc requestFrame(callback: proc(timestamp: float) {.closure.}): int {.importjs: "window.requestAnimationFrame(#)".}
 proc cancelFrame(id: int) {.importjs: "window.cancelAnimationFrame(#)".}
 proc addResizeListener(callback: proc() {.closure.}) {.importjs: "window.addEventListener('resize', #)".}
@@ -66,7 +66,7 @@ proc resizeCanvas() =
   setCssHeight(canvas, cstring($viewportH & "px"))
   setCanvasWidth(canvas, int(round(viewportW * pixelRatio)))
   setCanvasHeight(canvas, int(round(viewportH * pixelRatio)))
-  setTransform(ctx, pixelRatio)
+  setTransform(ctx, pixelRatio, pixelRatio)
   setFillStyle(ctx, Background)
   fillRect(ctx, 0.0, 0.0, viewportW, viewportH)
   particles.setLen(0)
