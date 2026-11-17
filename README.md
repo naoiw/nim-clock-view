@@ -35,6 +35,8 @@ Nim 2.4.2 とPython 3、シェル環境を用意します。
 ```bash
 nim c -r tests/test_clock_math.nim
 bash scripts/build.sh
+# Node.jsをお持ちの場合はJSの動作検証も可能
+node tests/browser-smoke.cjs
 python3 -m http.server 3000
 ```
 
@@ -53,6 +55,7 @@ python3 -m http.server 3000
 - `src/clock.nim` — JS相互運用、Canvas描画、描画ループ、ブラウザイベント
 - `src/styles.css` — 画面スタイル
 - `tests/test_clock_math.nim` — Nim標準 `unittest` による単体テスト
+- `tests/browser-smoke.cjs` — 生成JavaScriptの起動・描画スモークテスト（CI用）
 - `scripts/build.sh` — `nim js` と静的ファイルのビルド
 - `index.html` — HTMLエントリポイント
 - `.github/workflows/` — CIとPagesデプロイ
