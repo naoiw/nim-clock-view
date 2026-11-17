@@ -1,0 +1,30 @@
+name: Validate develop
+
+on:
+  push:
+    branches: [develop]
+  pull_request:
+    branches: [main, develop]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: jiro4989/setup-nim-action@v2
+        with:
+          nim-version: '2.4.2'
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Unit tests
+        run: nim c -r tests/test_clock_math.nim
+      - name: Build browser JavaScript
+        run: bash scripts/build.sh
+      - name: Verify build artifacts
+        run: test -s dist/clock.js && test -s dist/styles.css

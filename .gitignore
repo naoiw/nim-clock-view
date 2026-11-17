@@ -1,0 +1,6 @@
+/dist/
+/nimcache/
+/.nim_runtime/
+/tests/test_clock_math
+/tests/test_clock_math.exe
+.DS_Store
